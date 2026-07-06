@@ -1,0 +1,263 @@
+/* 기본 초기화 및 중앙 정렬 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* 🎨 테마별 전체 배경색 및 기본 글자색 선언 */
+body.white { background: #f5f5f5; color: #222; }
+body.pink { background: #FFE4EC; color: #333; }
+body.dark { background: #121212; color: #ffffff; }
+
+/* 📦 메인 컨테이너 */
+.container {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    text-align: center;
+    transition: all 0.3s;
+}
+body.white .container { background: white; border: 1px solid #ddd; }
+body.pink .container { background: #ffffff; border: 1px solid #ffccd9; }
+body.dark .container { background: #2d2d2d; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+
+/* 💡 아랍어 게임 화면 가득 차게 확장시 배경 매칭 */
+body:has(#gameScreen:not([style*="display:none"])) .container,
+body:has(#gameScreen:not([style*="display: none"])) .container {
+    max-width: 100% !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    border: none !important;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+body.white:has(#gameScreen:not([style*="display:none"])) .container { background: #f5f5f5; }
+body.pink:has(#gameScreen:not([style*="display:none"])) .container { background: #FFE4EC; }
+body.dark:has(#gameScreen:not([style*="display:none"])) .container { background: #121212; }
+
+/* 🔘 테마별 일반 버튼 색상 (기본 규칙) */
+button { 
+    margin: 8px; 
+    padding: 12px 22px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    border: none; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    transition: .2s; 
+    box-sizing: border-box;
+}
+button:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+/* 1) White 테마 버튼 */
+body.white button { background: #1e4620 !important; color: white !important; }
+/* 2) Pink 테마 버튼 */
+body.pink button { background: #e60073 !important; color: white !important; }
+/* 3) Dark 테마 버튼 */
+body.dark button { background: #ffffff !important; color: #121212 !important; }
+
+/* ⓘ 가이드 버튼 (우측 최상단 고정 - 공통 예외) */
+#globalInfoBtn {
+    position: absolute; top: 15px; right: 15px;
+    background: transparent !important; border: none !important; box-shadow: none !important;
+    padding: 0 !important; margin: 0 !important; font-size: 24px !important;
+    line-height: 1 !important; width: auto !important; height: auto !important;
+    z-index: 9999; cursor: pointer; transition: color 0.2s, transform 0.2s;
+}
+body.white #globalInfoBtn { color: #888888 !important; }
+body.white #globalInfoBtn:hover { color: #1e4620 !important; transform: scale(1.1); }
+body.pink #globalInfoBtn { color: #ff8db3 !important; }
+body.pink #globalInfoBtn:hover { color: #e60073 !important; transform: scale(1.1); }
+body.dark #globalInfoBtn { color: #aaaaaa !important; }
+body.dark #globalInfoBtn:hover { color: #ffffff !important; transform: scale(1.1); }
+
+/* 🏆 랭킹보기 버튼 전용 스타일 (이모티콘 동그라미 유지) */
+.icon-rank-btn {
+    background: #ffcc00 !important; color: #222 !important;
+    width: 60px !important; height: 60px !important; border-radius: 50% !important;
+    font-size: 26px !important; padding: 0 !important; margin: 10px auto !important;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(255, 204, 0, 0.3) !important;
+}
+.icon-rank-btn:hover { transform: scale(1.08) translateY(-2px) !important; background: #e6b800 !important; }
+
+/* 예외 관리 버튼 (로그아웃, 뒤로가기) */
+body.white .logout-btn { background: #666666 !important; }
+body.pink .logout-btn { background: #ff8db3 !important; }
+body.dark .logout-btn { background: #555555 !important; color: #fff !important; }
+.back-btn { font-size: 24px !important; padding: 4px 16px !important; background: #ff5c5c !important; color: white !important; border-radius: 10px; }
+
+/* 👤 스타트 화면 디자인 */
+.main-title { font-size: 42px; margin-bottom: 15px; transition: color 0.3s; } 
+body.white .main-title { color: #1e4620; }
+body.pink .main-title { color: #e60073; }
+body.dark .main-title { color: #ffffff; }
+
+.player-box { margin: 25px 0; }
+.player-box label { display: block; font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+.player-box input { width: 80%; max-width: 250px; padding: 12px; font-size: 18px; text-align: center; border-radius: 10px; outline: none; transition: border-color 0.2s; }
+body.white .player-box input { border: 2px solid #ccc; }
+body.white .player-box input:focus { border-color: #1e4620; }
+body.pink .player-box input { border: 2px solid #ffccd9; background: #fffbfd; }
+body.pink .player-box input:focus { border-color: #e60073; }
+body.dark .player-box input { border: 2px solid #555; background: #444; color: white; }
+body.dark .player-box input:focus { border-color: #ffffff; }
+
+/* 🛠️ [해결] 시작 화면 전용 흰색 '순위확인' 버튼 - 글자색 강제 수정 */
+/* 💡 [수정] 시작 화면 전용 '순위확인' 버튼 - 게임시작 버튼과 완벽히 동일한 크기 + 다크그린 배경 + 흰색 글씨 */
+.start-rank-btn {
+    font-weight: bold !important;
+    font-size: 16px !important;       /* 게임시작 버튼과 동일한 글자 크기 */
+    padding: 12px 22px !important;    /* 게임시작 버튼과 완전히 똑같은 안쪽 여백 */
+    border-radius: 12px !important;   /* 게임시작 버튼과 동일한 라운딩 */
+    margin: 8px !important;           /* 게임시작 버튼과 동일한 바깥 여백 */
+    display: inline-block;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    border: none !important;          /* 테두리 없음 */
+}
+.start-rank-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* 🌿 1) White(기본) 테마: 배경 다크그린 + 글씨 하얀색 */
+body.white .start-rank-btn { 
+    background: #1e4620 !important;   /* 다크그린 배경 */
+    color: #ffffff !important;       /* 하얀색 글씨 */
+}
+
+/* 🌸 2) Pink 테마: 배경 진분홍 + 글씨 하얀색 (핑크 테마 기본 버튼 규칙 적용) */
+body.pink .start-rank-btn { 
+    background: #e60073 !important; 
+    color: #ffffff !important; 
+}
+
+/* 🕶️ 3) Dark 테마: 배경 하얀색 + 글씨 검은색 (다크 테마 기본 버튼 규칙 적용) */
+body.dark .start-rank-btn { 
+    background: #ffffff !important; 
+    color: #121212 !important; 
+}
+
+
+/* 📋 메뉴 화면 */
+#menuScreen h2 { margin-bottom: 30px; font-size: 26px; }
+.menu-buttons button { display: block; width: 80%; margin: 15px auto; padding: 15px; font-size: 18px; }
+
+/* 🎮 상단 게임 정보 바 */
+#gameInfo {
+    display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;
+    border-radius: 15px; padding: 12px; margin: 20px auto; max-width: 600px; width: 100%;
+    transition: background 0.3s; box-sizing: border-box;
+}
+body.white #gameInfo { background: #e8e8e8; }
+body.pink #gameInfo { background: #fff4f8; border: 1px solid #ffccd9; }
+body.dark #gameInfo { background: #2d2d2d; color: #ffffff; }
+#gameInfo p { margin: 5px 10px; font-weight: bold; font-size: 18px; }
+
+/* 📝 아랍어 문장 데이터 텍스트 피드백 */
+#sentence { font-size: 64px; font-weight: bold; margin: 35px 0 10px; line-height: 1.6; }
+body.white .char { color: #000000; }
+body.pink .char { color: #e60073; }
+body.dark .char { color: #ffffff; }
+.char.correct { color: #22c55e !important; }
+.char.incorrect { color: #ef4444 !important; }
+
+#typedPreview { margin-top: 10px; font-size: 34px; direction: rtl; min-height: 45px; font-weight: bold; }
+body.white #typedPreview { color: #333333; }
+body.pink #typedPreview { color: #e60073; }
+body.dark #typedPreview { color: #ffffff !important; }
+
+#meaning { font-size: 24px; color: #555; margin-bottom: 25px; font-weight: 500; }
+body.dark #meaning { color: #eeeeee; }
+
+/* ⌨️ 입력창 테마 세팅 */
+#answer {
+    width: 90%; max-width: 500px; padding: 16px; font-size: 32px;
+    text-align: center; direction: rtl; border-radius: 14px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+body.white #answer { border: 2px solid #ccc; background: white; color: black; }
+body.pink #answer { border: 2px solid #ff9ec2; background: white; color: black; }
+body.dark #answer { border: 2px solid #555; background: #444; color: white; }
+body.white #answer:focus { border-color: #1e4620; box-shadow: 0 0 10px rgba(30,70,32,.2); }
+body.pink #answer:focus { border-color: #ff4d94; box-shadow: 0 0 10px rgba(255,77,148,.3); }
+body.dark #answer:focus { border-color: #ffffff; box-shadow: 0 0 10px rgba(255,255,255,.4); }
+
+.theme-menu button { padding: 8px 14px; font-size: 14px; }
+.nav-menu { display: flex; justify-content: space-between; align-items: center; max-width: 600px; width: 100%; margin: 0 auto; padding: 0 40px 0 10px; box-sizing: border-box; }
+
+/* 🎉 결과 오버레이 모달 */
+#gameOver {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 90%; max-width: 400px; border-radius: 20px; padding: 40px;
+    box-shadow: 0 0 30px rgba(0,0,0,.25); text-align: center; z-index: 999;
+}
+body.white #gameOver { background: white; }
+body.pink #gameOver { background: #ffffff; border: 2px solid #ffccd9; }
+body.dark #gameOver { background: #2d2d2d; color: white; }
+body.white #finalScore { font-weight: bold; color: #1e4620; font-size: 24px; }
+body.pink #finalScore { font-weight: bold; color: #e60073; font-size: 24px; }
+body.dark #finalScore { font-weight: bold; color: #ffffff; font-size: 24px; }
+.resultButtons { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+
+/* 🏆 [수정] 모달(랭킹/설명서) 색상을 각 테마와 100% 일치하도록 연동 */
+#rankingModal, #infoModal {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 90%; max-width: 420px; height: 540px;
+    border-radius: 20px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    z-index: 10000; display: flex; flex-direction: column; text-align: center; box-sizing: border-box;
+}
+body.white #rankingModal, body.white #infoModal { background: white; color: #222; }
+body.pink #rankingModal, body.pink #infoModal { background: #fffcfd; color: #333; border: 2px solid #ffccd9; }
+body.dark #rankingModal, body.dark #infoModal { background: #2d2d2d; color: white; }
+
+/* 설명서 내부 텍스트 영역 */
+.info-content-area { flex: 1; overflow-y: auto; text-align: left; padding: 0 5px; font-size: 14px; line-height: 1.6; }
+body.white .info-content-area h4 { color: #1e4620; margin-top: 15px; margin-bottom: 5px; font-size: 16px; }
+body.pink .info-content-area h4 { color: #e60073; margin-top: 15px; margin-bottom: 5px; font-size: 16px; }
+body.dark .info-content-area h4 { color: #ffffff; margin-top: 15px; margin-bottom: 5px; font-size: 16px; }
+.info-content-area p { margin: 4px 0; color: #444; }
+body.dark .info-content-area p { color: #ddd; }
+
+/* 🏆 [수정] 랭킹 상단 난이도 탭 테마별 깔끔 연동 */
+.ranking-tabs { display: flex; justify-content: space-around; margin-bottom: 15px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
+body.dark .ranking-tabs { border-bottom: 2px solid #555; }
+.rank-tab { font-weight: bold; padding: 5px 10px; cursor: pointer; color: #888; }
+body.white .rank-tab.active-tab { color: #1e4620 !important; border-bottom: 3px solid #1e4620 !important; }
+body.pink .rank-tab.active-tab { color: #e60073 !important; border-bottom: 3px solid #e60073 !important; }
+body.dark .rank-tab.active-tab { color: #ffffff !important; border-bottom: 3px solid #ffffff !important; }
+
+/* 🏆 [수정] 랭킹 리스트 아이템 선 테마 일치 */
+#rankingListArea { flex: 1; overflow-y: auto; text-align: left; padding: 5px; font-size: 16px; }
+.rank-item { display: flex; justify-content: space-between; padding: 8px 10px; border-bottom: 1px solid #eee; align-items: center; }
+body.pink .rank-item { border-bottom: 1px solid #ffe4ec; }
+body.dark .rank-item { border-bottom: 1px solid #444; }
+.rank-number { font-weight: bold; color: #ff9900; margin-right: 10px; }
+
+/* 하단 닫기 버튼 예외 제어 */
+.close-rank-btn, .close-info-btn { margin-top: 15px; padding: 11px; width: 100%; border-radius: 10px; }
+body.white .close-rank-btn, body.white .close-info-btn { background: #555555 !important; color: white !important; }
+body.pink .close-rank-btn, body.pink .close-info-btn { background: #ff8db3 !important; color: white !important; }
+body.dark .close-rank-btn, body.dark .close-info-btn { background: #ffffff !important; color: #121212 !important; }
+
+/* 📱 모바일 최적화 */
+@media (max-width: 600px) {
+    #sentence { font-size: 42px; }
+    #answer { width: 95%; font-size: 24px; }
+    #globalInfoBtn { top: 10px; right: 10px; font-size: 22px !important; }
+}

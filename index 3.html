@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>ArabiType</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="white"> <!-- 기본 class는 white -->
+<div class="container">
+
+    <!-- 💡 모든 화면 공통: 우측 최상단 고정 ⓘ 버튼 -->
+    <button id="globalInfoBtn" onclick="toggleInfoModal()">Ⓘ</button>
+
+    <!-- 👤 1. 시작 화면 -->
+    <div id="startScreen">
+        <h1 class="main-title">ArabiType</h1>
+        <div class="player-box">
+            <label for="playerName">Player Name</label>
+            <input type="text" id="playerName" placeholder="이름을 입력하세요." maxlength="10">
+        </div>
+        <button id="startBtn">게임 시작</button>
+        
+        <div style="margin-top: 15px; border-top: 1px solid #ddd; padding-top: 15px;">
+            <button onclick="toggleRankingModal()" class="start-rank-btn">순위확인</button>
+        </div>
+    </div>
+
+    <!-- 📋 2. 메뉴 화면 -->
+    <div id="menuScreen" style="display:none;">
+        <h2>난이도를 선택하세요</h2>
+        <div class="menu-buttons">
+            <button onclick="selectLevel('basic')" class="level-btn">초급</button>
+            <button onclick="selectLevel('intermediate')" class="level-btn">중급</button>
+            <button onclick="selectLevel('advanced')" class="level-btn">고급</button>
+        </div>
+        <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+            <button onclick="toggleRankingModal()" class="icon-rank-btn">🏆</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <button onclick="goToStartScreen()" class="logout-btn">로그아웃</button>
+        </div>
+    </div>
+
+    <!-- 🎮 3. 게임 화면 -->
+    <div id="gameScreen" style="display:none;">
+        <div class="nav-menu">
+            <button onclick="backToMenu()" class="back-btn">&lt;</button>
+            <span class="theme-menu">
+                <button onclick="setTheme('white')">White</button>
+                <button onclick="setTheme('pink')">Pink</button>
+                <button onclick="setTheme('dark')">Dark</button>
+            </span>
+        </div>    
+        
+        <div id="gameArea">
+            <div id="gameInfo">
+                <p>⏰ 시간 <span id="time">60</span></p>
+                <p>⭐ 점수 <span id="score">0</span></p>
+                <p>🏆 최고 <span id="best">0</span></p>
+                <p id="questionInfo">문제 1 / 10</p>
+            </div>
+
+            <div id="questionArea">
+                <p id="sentence" dir="rtl"></p>
+                <div id="typedPreview"></div>
+                <p id="meaning"></p>
+                <input id="answer" dir="rtl" autocomplete="off" spellcheck="false">
+                <p id="result"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎉 4. 결과 및 게임 오버 화면 -->
+    <div id="gameOver" style="display:none;">
+        <h2 id="resultTitle">Level Complete!</h2>
+        <p>점수 : <span id="finalScore">0</span></p>
+        <div class="resultButtons">
+            <button id="continueBtn" onclick="nextStage()">계속하기</button>
+            <button onclick="backToMenu()" class="go-menu-btn">메뉴로 가기</button>
+        </div>
+        <div style="margin-top: 15px; border-top: 1px solid #ddd; padding-top: 15px;">
+            <button onclick="toggleRankingModal()" class="icon-rank-btn">🏆</button>
+        </div>
+    </div>
+
+    <!-- 🏆 5. 랭킹 모달 팝업 창 -->
+    <div id="rankingModal" style="display:none;">
+        <h3>🏆 실시간 랭킹</h3>
+        <div class="ranking-tabs">
+            <span id="tab-basic" class="rank-tab active-tab" onclick="showRankList('basic')">초급</span>
+            <span id="tab-intermediate" class="rank-tab" onclick="showRankList('intermediate')">중급</span>
+            <span id="tab-advanced" class="rank-tab" onclick="showRankList('advanced')">고급</span>
+        </div>
+        <div id="rankingListArea"></div>
+        <button onclick="toggleRankingModal()" class="close-rank-btn">닫기</button>
+    </div>
+
+    <!-- ℹ️ 6. 게임 설명서 모달 팝업 창 -->
+    <div id="infoModal" style="display:none;">
+        <h3>📋 ArabiType 가이드</h3>
+        <div class="info-content-area">
+            <h4>1. 난이도별 설정</h4>
+            <p>• <strong>초급</strong>: 제한시간 60초 / 총 10문제</p>
+            <p>• <strong>중급</strong>: 제한시간 40초 / 총 20문제</p>
+            <p>• <strong>고급</strong>: 제한시간 20초 / 총 30문제</p>
+            
+            <h4>2. 진행 방식</h4>
+            <p>• <strong>속도 가산점</strong>: 입력 속도가 빠를수록 보너스 점수가 높게 부여됩니다.</p>
+            <p>• <strong>정확도 피드백</strong>: 글자 색상으로 실시간 오답 여부를 표시합니다.</p>
+            
+            <h4>3. 랭킹 등록 규칙</h4>
+            <p>• <strong>최고 점수 반영</strong>: 동일 닉네임 중복 등록 불가</p>
+            <p>• <strong>데이터 갱신</strong>: 기존 기록보다 높은 점수 획득 시에만 최신 점수로 자동 업데이트</p>
+        </div>
+        <button onclick="toggleInfoModal()" class="close-info-btn">확인</button>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
